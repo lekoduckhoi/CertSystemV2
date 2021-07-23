@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 
 import "./Layer3.sol";
 
-contract Organization {
+contract OrganizationContract {
     
     uint public orgId;
     string public orgName;
@@ -39,7 +39,7 @@ contract Organization {
         creationTime = block.timestamp;
     }
     
-    //Acitivitys
+    //Acitivities
     event AddActivity(Activity);
     event RemoveActivity(Activity);
     
@@ -57,9 +57,9 @@ contract Organization {
         return allActivityAdresses;
     }
     
-    function addNewActivity(string memory _activityName, string memory _period, string memory _link) public {
+    function addNewActivity(string memory _activityName, string memory _period, string memory _link, uint packageNumber) public {
         require(msg.sender == owner, "must be owner");
-        ActivityContract newActivty = new ActivityContract(totalAddedActivity, _activityName, orgName, _period, _link);
+        ActivityContract newActivty = new ActivityContract(totalAddedActivity, _activityName, orgName, _period, _link, packageNumber);
         acitivityById[activityCount] = Activity(totalAddedActivity, _activityName, address(newActivty));
         allActivityAdresses.push(address(newActivty));
         activityCount++;
