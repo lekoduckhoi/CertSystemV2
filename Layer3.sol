@@ -1,7 +1,7 @@
 //SPDX-License-Identifier:MIT
 pragma solidity ^0.8.6;
 
-contract Activity {
+contract ActivityContract {
     
     //Activity Info
     uint public activityId;                    //1 2 3...     
@@ -9,22 +9,23 @@ contract Activity {
     string public organization;        //Viasm
     string public period;              //10/7/1021 -> 11/7/2021
     string public link;                //viasm.edu.vn
-    uint public createdTime;           //1610101010
+    uint public creationTime;           //1610101010
     
     uint public certCount;          //total of available cert in contract
     uint totalAddedCert;            //including removed Certificate
     
-    function updateInfo(uint _activityId, string memory _activityName, string memory _organization, string memory _period, string memory, string memory _link) public {
+    
+    event UpdateInfo(string ActivityName, string Period, string Link);
+    function updateInfo(string memory _activityName, string memory _period, string memory, string memory _link) public {
         require(msg.sender == owner, 'must be owner');
-        activityId = _activityId;
         activityName = _activityName;
-        organization = _organization;
         period = _period;
         link = _link;
+        emit UpdateInfo(_activityName, _period, _link);
     }
     
     //owner
-    address owner;
+    address public owner;
     function setNewOwner(address newOwnerAddress) public {
         require(msg.sender == owner, 'must be owner');
         owner = newOwnerAddress;
@@ -38,7 +39,7 @@ contract Activity {
         period = _period;
         link = _link;
         owner = tx.origin;
-        createdTime = block.timestamp;
+        creationTime = block.timestamp;
     }
     
     //cert
