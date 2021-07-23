@@ -10,6 +10,7 @@ contract ActivityContract {
     string public period;              //10/7/1021 -> 11/7/2021
     string public link;                //viasm.edu.vn
     uint public creationTime;           //1610101010
+    uint public maxCertificateNumber;  // 50 / 150 / unlimited(0)
     
     uint public certCount;          //total of available cert in contract
     uint totalAddedCert;            //including removed Certificate
@@ -32,12 +33,13 @@ contract ActivityContract {
     }
  
     //constructor
-    constructor(uint _activityId, string memory _activityName, string memory _organization, string memory _period, string memory _link) {
+    constructor(uint _activityId, string memory _activityName, string memory _organization, string memory _period, string memory _link, uint _maxCertificateNumber) {
         activityId = _activityId;
         activityName = _activityName;
         organization = _organization;
         period = _period;
         link = _link;
+        maxCertificateNumber = _maxCertificateNumber;
         owner = tx.origin;
         creationTime = block.timestamp;
     }
@@ -63,6 +65,7 @@ contract ActivityContract {
     
     function addNewCerificate(string memory _issueTo, string memory _id, string memory _ipfsHash) public {
         require(msg.sender == owner, "must be owner");
+        if(maxCertificateNumber != 0) require(certCount < maxCertificateNumber, "limit reached");
         certificateById[_id] = Certificate(totalAddedCert, _issueTo, _id, _ipfsHash);
         allCertId.push(_id);
         certCount++;
@@ -75,8 +78,8 @@ contract ActivityContract {
         require(msg.sender == owner, "must be owner");
         delete allCertId[certificateById[_id].certNumber];
         delete certificateById[_id];
+        delete ipfsHashExist[certificateById[_id].ipfsHash];
         certCount--;
-        ipfsHashExist[certificateById[_id].ipfsHash] = false;
         emit RemoveCertificate(certificateById[_id]);
     }
 
