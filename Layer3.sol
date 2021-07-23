@@ -33,15 +33,21 @@ contract ActivityContract {
     }
  
     //constructor
-    constructor(uint _activityId, string memory _activityName, string memory _organization, string memory _period, string memory _link, uint _maxCertificateNumber) {
+    constructor(uint _activityId, string memory _activityName, string memory _organization, string memory _period, string memory _link, uint _packagetype) {
         activityId = _activityId;
         activityName = _activityName;
         organization = _organization;
         period = _period;
         link = _link;
-        maxCertificateNumber = _maxCertificateNumber;
         owner = tx.origin;
         creationTime = block.timestamp;
+        if(_packagetype == 0) {
+            maxCertificateNumber = 50;            
+        } else if(_packagetype == 1) {
+            maxCertificateNumber = 150;
+        } else {
+            maxCertificateNumber = 0;    //unlimited
+        }
     }
     
     //cert
@@ -55,7 +61,7 @@ contract ActivityContract {
     struct Certificate {
         uint certNumber;
         string issueTo;
-        string id;
+        string id;    //sha1
         string ipfsHash;
     }
     
