@@ -4,6 +4,7 @@ pragma solidity ^0.8.6;
 contract Activity {
     
     //Activity Info
+    uint public activityId;                    //1 2 3...     
     string public activityName;        //Blockchain Course
     string public organization;        //Viasm
     string public period;              //10/7/1021 -> 11/7/2021
@@ -13,8 +14,9 @@ contract Activity {
     uint public certCount;          //total of available cert in contract
     uint totalAddedCert;            //including removed Certificate
     
-    function updateInfo(string memory _activityName, string memory _organization, string memory _period, string memory, string memory _link) public {
+    function updateInfo(uint _activityId, string memory _activityName, string memory _organization, string memory _period, string memory, string memory _link) public {
         require(msg.sender == owner, 'must be owner');
+        activityId = _activityId;
         activityName = _activityName;
         organization = _organization;
         period = _period;
@@ -29,7 +31,8 @@ contract Activity {
     }
  
     //constructor
-    constructor(string memory _activityName, string memory _organization, string memory _period, string memory _link) {
+    constructor(uint _activityId, string memory _activityName, string memory _organization, string memory _period, string memory _link) {
+        activityId = _activityId;
         activityName = _activityName;
         organization = _organization;
         period = _period;
