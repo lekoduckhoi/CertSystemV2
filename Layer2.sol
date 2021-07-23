@@ -2,14 +2,18 @@
 pragma solidity ^0.8.6;
 
 import "./Layer3.sol";
+import "./Layer1.sol";
 
 contract OrganizationContract {
+    
+    CertSystemLayer1 layer1Contract;
     
     uint public orgId;
     string public orgName;
     string public orgLink;
     uint public creationTime;
     uint public activityCount;
+    uint[3] public numberOfEachPack;     // [numberOfPack50, numberOfPack150, numberOfPackUnlimited]
     
     uint totalAddedActivity; //include removed activities
     
@@ -21,6 +25,11 @@ contract OrganizationContract {
         orgName = _orgName;
         orgLink = _orglink;
         emit UpdateInfo(_orgId, _orgName, _orglink);
+    }
+    
+    function viewNumberOfPackRemain() public view returns(uint[3] memory) {
+        uint[3] memory totalAffordPack = layer1Contract.viewTotalPackById(orgId);
+        return([totalAffordPack[0] - numberOfEachPack[0], totalAffordPack[1] - numberOfEachPack[1], totalAffordPack[2] - numberOfEachPack[2]]);
     }
     
     //owner
@@ -37,42 +46,43 @@ contract OrganizationContract {
         orgLink = _orglink;
         owner = tx.origin;
         creationTime = block.timestamp;
+        layer1Contract = CertSystemLayer1(msg.sender);
     }
     
     //Acitivities
     event AddActivity(Activity);
     event RemoveActivity(Activity);
     
-    mapping(uint => Activity) public acitivityById;
-    
-    address[] public allActivityAdresses;
+    Activity[] allActivities;
     
     struct Activity {
         uint id;
+        uint packageType;
         string name;
         address acitivityContractAddress;
     }
     
-    function viewAllActivityAddress() public view returns(address[] memory) {
-        return allActivityAdresses;
+    function viewAllActivityAddress() public view returns(Activity[] memory) {
+        return allActivities;
     }
     
-    function addNewActivity(string memory _activityName, string memory _period, string memory _link, uint packageNumber) public {
+    function addNewActivity(string memory _activityName, string memory _period, string memory _link, uint _packageType) public {
         require(msg.sender == owner, "must be owner");
-        ActivityContract newActivty = new ActivityContract(totalAddedActivity, _activityName, orgName, _period, _link, packageNumber);
-        acitivityById[activityCount] = Activity(totalAddedActivity, _activityName, address(newActivty));
-        allActivityAdresses.push(address(newActivty));
+        require(_packageType < 3, 'wrong packageType');
+        require(numberOfEachPack[_packageType] <= layer1Contract.viewTotalPackById(orgId)[_packageType]);
+        ActivityContract newActivty = new ActivityContract(totalAddedActivity, _activityName, orgName, _period, _link, _packageType);
+        allActivities.push(Activity(totalAddedActivity,_packageType, _activityName, address(newActivty)));
         activityCount++;
         totalAddedActivity++;
-        emit AddActivity(Activity(totalAddedActivity, _activityName, address(newActivty)));
+        numberOfEachPack[_packageType]++;
+        emit AddActivity(Activity(totalAddedActivity,_packageType, _activityName, address(newActivty)));
     }
     
     function removeActivityById(uint _id) public {
         require(msg.sender == owner, "must be owner");
         activityCount--;
-        delete allActivityAdresses[_id];
-        delete acitivityById[_id];
-        emit RemoveActivity(acitivityById[_id]);
+        delete allActivities[_id];
+        emit RemoveActivity(allActivities[_id]);
     }
     
     
