@@ -1,28 +1,22 @@
 pragma solidity ^0.8.6;
 
+import "./Layer2.sol";
+
 contract CertSystemLayer1 {
     
-    address owner;
-    constructor() {
-        owner = msg.sender;
+    string public systemName = "Blockchain-based Certificate System";
+    address public creator;
+    
+    uint public package50Price;
+    uint public package150Price;
+    uint public packageUnlimitedPrice;
+    
+    function updatePrice(uint _package50Price, uint _package150Price, uint _packageUnlimitedPrice) public {
+        require(msg.sender == creator, 'must be creator');
+        package50Price = _package50Price;
+        package150Price = _package150Price;
+        packageUnlimitedPrice = _packageUnlimitedPrice;
     }
     
     
-    //organizations
-    struct Organization {
-        string name;
-        string weblink;
-        address CourseFacContract;
-        uint8 numberOfCourse;
-        
-    }
-    
-    Organization[] oraganizations;
-    
-    //function register for organization
-    
-    function register(string memory _name) public {
-        require(msg.sender == owner, "must be owner");
-        //oraganizations.push(Organization())
-    }
 }
