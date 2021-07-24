@@ -6,6 +6,7 @@ import "./Layer1.sol";
 
 contract OrganizationContract {
     
+    address public layer1ContractAddress;
     CertSystemLayer1 layer1Contract;
     
     uint public orgId;
@@ -15,12 +16,10 @@ contract OrganizationContract {
     uint public activityCount;
     uint[3] public totalUsedPack;     // [numberOfPack50, numberOfPack150, numberOfPackUnlimited]
     
-    uint totalAddedActivity; //include removed activities
-    
     event UpdateInfo(uint OrgId, string OrgName, string Orglink);
     
     function updateInfo(uint _orgId, string memory _orgName, string memory _orglink) public {
-        require(msg.sender == owner, "must be owner");
+        require(msg.sender == owner, "NO");
         orgId = _orgId;
         orgName = _orgName;
         orgLink = _orglink;
@@ -35,7 +34,7 @@ contract OrganizationContract {
     //owner
     address public owner;
     function setNewOwner(address newOwnerAddress) public {
-        require(msg.sender == owner, 'must be owner');
+        require(msg.sender == owner, 'NO');
         owner = newOwnerAddress;
     }
     
@@ -47,6 +46,7 @@ contract OrganizationContract {
         owner = tx.origin;
         creationTime = block.timestamp;
         layer1Contract = CertSystemLayer1(msg.sender);
+        layer1ContractAddress = msg.sender;
     }
     
     //Acitivities
@@ -67,24 +67,14 @@ contract OrganizationContract {
     }
     
     function addNewActivity(string memory _activityName, string memory _period, string memory _link, uint _packageType) public {
-        require(msg.sender == owner, "must be owner");
-        require(_packageType < 3, 'wrong packageType');
-        require(totalUsedPack[_packageType] <= layer1Contract.viewTotalPackById(orgId)[_packageType]);
-        ActivityContract newActivty = new ActivityContract(totalAddedActivity, _activityName, orgName, _period, _link, _packageType);
-        allActivities.push(Activity(totalAddedActivity,_packageType, _activityName, address(newActivty)));
+        require(msg.sender == owner, "NO");
+        require(_packageType < 3, 'WPT');
+        require(totalUsedPack[_packageType] < layer1Contract.viewTotalPackById(orgId)[_packageType], "PL");
+        ActivityContract newActivty = new ActivityContract(activityCount, _activityName, address(this), _period, _link, _packageType);
+        allActivities.push(Activity(activityCount,_packageType, _activityName, address(newActivty)));
         activityCount++;
-        totalAddedActivity++;
         totalUsedPack[_packageType]++;
-        emit AddActivity(Activity(totalAddedActivity,_packageType, _activityName, address(newActivty)));
+        emit AddActivity(Activity(activityCount,_packageType, _activityName, address(newActivty)));
     }
-    
-    function removeActivityById(uint _id) public {
-        require(msg.sender == owner, "must be owner");
-        activityCount--;
-        totalUsedPack[allActivities[_id].packageType]--;
-        delete allActivities[_id];
-        emit RemoveActivity(allActivities[_id]);
-    }
-    
     
 }
