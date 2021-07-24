@@ -81,6 +81,7 @@ contract OrganizationContract {
     function removeActivityById(uint _id) public {
         require(msg.sender == owner, "must be owner");
         activityCount--;
+        totalUsedPack[allActivities[_id].packageType]--;
         delete allActivities[_id];
         emit RemoveActivity(allActivities[_id]);
     }
