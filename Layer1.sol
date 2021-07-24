@@ -22,7 +22,7 @@ contract CertSystemLayer1 {
     
     Organization[] allOrganizations;
     
-    mapping(uint => uint[3]) public totalPackById;       //org id 1 => [totalPack50, totalPack150, totalPackUnlimited];
+    mapping(uint => uint[3]) public totalAffordPackById;       //org id 1 => [totalPack50, totalPack150, totalPackUnlimited];
     
     struct Organization {
         uint orgId;
@@ -35,7 +35,7 @@ contract CertSystemLayer1 {
         return allOrganizations;
     }
     function viewTotalPackById(uint _id) public view returns(uint[3] memory) {
-        return totalPackById[_id];
+        return totalAffordPackById[_id];
     }
     
     function register(string memory _orgName, string memory _orglink, uint firstPackType) public payable {   // firstPackType can be 0,1,2 => 50,150,unlimited
@@ -43,7 +43,7 @@ contract CertSystemLayer1 {
         require(msg.value == PackagePrice[firstPackType], "wrong value");
         OrganizationContract newOrganization = new OrganizationContract(orgCount, _orgName, _orglink);
         allOrganizations.push(Organization(orgCount, _orgName, msg.sender, address(newOrganization)));
-        totalPackById[orgCount][firstPackType]++;
+        totalAffordPackById[orgCount][firstPackType]++;
         orgCount++;
         emit Register(Organization(orgCount, _orgName, msg.sender, address(newOrganization)));
     }   
@@ -52,14 +52,15 @@ contract CertSystemLayer1 {
         require(msg.sender == allOrganizations[_orgId].orgOwner);
         require(addPackType < 3, "wrong pack type");
         require(msg.value == PackagePrice[addPackType], "wrong value");
-        totalPackById[_orgId][addPackType]++;
+        totalAffordPackById[_orgId][addPackType]++;
         emit UpdatePackage(_orgId, addPackType);
     }
     
     //withdraw function for creator
-    function withdraw() public returns(bool) {
-        require(msg.sender == creator);
-        creator.transfer(address(this).balance);
-        return true;
+    function withdraw() public {
+        require(msg.sender == creator, "must be creator");
+        payable(creator).transfer(address(this).balance);
     }
+    
+    
 }
