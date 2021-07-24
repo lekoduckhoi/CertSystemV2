@@ -56,5 +56,10 @@ contract CertSystemLayer1 {
         emit UpdatePackage(_orgId, addPackType);
     }
     
-    
+    //withdraw function for creator
+    function withdraw() public returns(bool) {
+        require(msg.sender == creator);
+        creator.transfer(address(this).balance);
+        return true;
+    }
 }
