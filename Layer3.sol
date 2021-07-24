@@ -17,7 +17,7 @@ contract ActivityContract {
     
     
     event UpdateInfo(string ActivityName, string Period, string Link);
-    function updateInfo(string memory _activityName, string memory _period, string memory, string memory _link) public {
+    function updateInfo(string memory _activityName, string memory _period, string memory _link) public {
         require(msg.sender == owner, 'must be owner');
         activityName = _activityName;
         period = _period;
