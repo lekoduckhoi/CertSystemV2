@@ -13,7 +13,7 @@ contract OrganizationContract {
     string public orgLink;
     uint public creationTime;
     uint public activityCount;
-    uint[3] public numberOfEachPack;     // [numberOfPack50, numberOfPack150, numberOfPackUnlimited]
+    uint[3] public totalUsedPack;     // [numberOfPack50, numberOfPack150, numberOfPackUnlimited]
     
     uint totalAddedActivity; //include removed activities
     
@@ -29,7 +29,7 @@ contract OrganizationContract {
     
     function viewNumberOfPackRemain() public view returns(uint[3] memory) {
         uint[3] memory totalAffordPack = layer1Contract.viewTotalPackById(orgId);
-        return([totalAffordPack[0] - numberOfEachPack[0], totalAffordPack[1] - numberOfEachPack[1], totalAffordPack[2] - numberOfEachPack[2]]);
+        return([totalAffordPack[0] - totalUsedPack[0], totalAffordPack[1] - totalUsedPack[1], totalAffordPack[2] - totalUsedPack[2]]);
     }
     
     //owner
@@ -69,12 +69,12 @@ contract OrganizationContract {
     function addNewActivity(string memory _activityName, string memory _period, string memory _link, uint _packageType) public {
         require(msg.sender == owner, "must be owner");
         require(_packageType < 3, 'wrong packageType');
-        require(numberOfEachPack[_packageType] <= layer1Contract.viewTotalPackById(orgId)[_packageType]);
+        require(totalUsedPack[_packageType] <= layer1Contract.viewTotalPackById(orgId)[_packageType]);
         ActivityContract newActivty = new ActivityContract(totalAddedActivity, _activityName, orgName, _period, _link, _packageType);
         allActivities.push(Activity(totalAddedActivity,_packageType, _activityName, address(newActivty)));
         activityCount++;
         totalAddedActivity++;
-        numberOfEachPack[_packageType]++;
+        totalUsedPack[_packageType]++;
         emit AddActivity(Activity(totalAddedActivity,_packageType, _activityName, address(newActivty)));
     }
     
