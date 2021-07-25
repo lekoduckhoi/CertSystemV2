@@ -44,10 +44,10 @@ contract CertSystemLayer1 {
         return totalAffordPackById[_id];
     }
     
-    function register(string memory _orgName, string memory _orglink, uint firstPackType) public payable {   // firstPackType can be 0,1,2 => 50,150,unlimited
+    function register(string memory _orgName, string memory _orglink, string memory _orgPic, uint firstPackType) public payable {   // firstPackType can be 0,1,2 => 50,150,unlimited
         require(firstPackType < 3, "PNF");
         require(msg.value == PackagePrice[firstPackType], "WV");
-        OrganizationContract newOrganization = new OrganizationContract(orgCount, _orgName, _orglink);
+        OrganizationContract newOrganization = new OrganizationContract(orgCount, _orgName, _orglink, _orgPic);
         allOrganizations.push(Organization(orgCount, _orgName, msg.sender, address(newOrganization)));
         totalAffordPackById[orgCount][firstPackType]++;
         orgCount++;
@@ -72,17 +72,13 @@ contract CertSystemLayer1 {
     mapping(string => address) public ipfsToActAddress;           //return which activity address contain the certificate ipfs  ||  call this mapping to verify ipfs
     
     function setIpfsToActAddress(string memory _ipfs) public returns(bool) {
-        ActivityContract _layer3Contract = ActivityContract(msg.sender);
-        address _layer1ContractAddress = _layer3Contract.layer1ContractAddress();
-        require(_layer1ContractAddress == address(this), "NE");
+        require(ActivityContract(msg.sender).layer1ContractAddress() == address(this), "NE");
         ipfsToActAddress[_ipfs] = msg.sender;
         return true;
     }
 
     function deleteIpfs(string memory _ipfs) public returns(bool) {
-        ActivityContract _layer3Contract = ActivityContract(msg.sender);
-        address _layer1ContractAddress = _layer3Contract.layer1ContractAddress();
-        require(_layer1ContractAddress == address(this), "NE");
+        require(ActivityContract(msg.sender).layer1ContractAddress() == address(this), "NE");
         ipfsToActAddress[_ipfs] = address(0);
         return true;
     }

@@ -12,39 +12,35 @@ contract OrganizationContract {
     uint public orgId;
     string public orgName;
     string public orgLink;
-    uint public creationTime;
+    string public orgPic;
     uint public activityCount;
     uint[3] public totalUsedPack;     // [numberOfPack50, numberOfPack150, numberOfPackUnlimited]
     
     event UpdateInfo(uint OrgId, string OrgName, string Orglink);
     
-    function updateInfo(uint _orgId, string memory _orgName, string memory _orglink) public {
+    function updateInfo(uint _orgId, string memory _orgName, string memory _orglink, string memory _orgPic) public {
         require(msg.sender == owner, "NO");
         orgId = _orgId;
         orgName = _orgName;
         orgLink = _orglink;
+        orgPic = _orgPic;
         emit UpdateInfo(_orgId, _orgName, _orglink);
-    }
-    
-    function viewNumberOfPackRemain() public view returns(uint[3] memory) {
-        uint[3] memory totalAffordPack = layer1Contract.viewTotalPackById(orgId);
-        return([totalAffordPack[0] - totalUsedPack[0], totalAffordPack[1] - totalUsedPack[1], totalAffordPack[2] - totalUsedPack[2]]);
     }
     
     //owner
     address public owner;
-    function setNewOwner(address newOwnerAddress) public {
+    function setNewOwner(address newOwner) public {
         require(msg.sender == owner, 'NO');
-        owner = newOwnerAddress;
+        owner = newOwner;
     }
     
     //constructor
-    constructor(uint _orgId, string memory _orgName, string memory _orglink) {
+    constructor(uint _orgId, string memory _orgName, string memory _orglink, string memory _orgPic) {
         orgId = _orgId;
         orgName = _orgName;
         orgLink = _orglink;
+        orgPic = _orgPic;
         owner = tx.origin;
-        creationTime = block.timestamp;
         layer1Contract = CertSystemLayer1(msg.sender);
         layer1ContractAddress = msg.sender;
     }
@@ -62,15 +58,15 @@ contract OrganizationContract {
         address acitivityContractAddress;
     }
     
-    function viewAllActivityAddress() public view returns(Activity[] memory) {
+    function viewAllActivities() public view returns(Activity[] memory) {
         return allActivities;
     }
     
-    function addNewActivity(string memory _activityName, string memory _period, string memory _link, uint _packageType) public {
+    function addNewActivity(string memory _activityName, string memory _actPic, string memory _link, uint _packageType) public {
         require(msg.sender == owner, "NO");
         require(_packageType < 3, 'WPT');
         require(totalUsedPack[_packageType] < layer1Contract.viewTotalPackById(orgId)[_packageType], "PL");
-        ActivityContract newActivty = new ActivityContract(activityCount, _activityName, address(this), _period, _link, _packageType);
+        ActivityContract newActivty = new ActivityContract(activityCount, _activityName, address(this), _actPic, _link, _packageType);
         allActivities.push(Activity(activityCount,_packageType, _activityName, address(newActivty)));
         activityCount++;
         totalUsedPack[_packageType]++;
