@@ -26,9 +26,10 @@ contract CertSystemLayer1 {
     event Register(Organization);
     event UpdatePackage(uint OrgId, uint UpdatedPaceType);
     
-    Organization[] allOrganizations;
+    Organization[] public allOrganizations;
     
     mapping(uint => uint[3]) public totalAffordPackById;       //org id 1 => [totalPack50, totalPack150, totalPackUnlimited];
+    mapping(address => bool) public isOrgAddress;              //Organization address create by this contract returns true
 
     struct Organization {
         uint orgId;
@@ -37,18 +38,12 @@ contract CertSystemLayer1 {
         address orgContractAddress;
     }
     
-    function viewAllOrgAddress() public view returns(Organization[] memory) {
-        return allOrganizations;
-    }
-    function viewTotalPackById(uint _id) public view returns(uint[3] memory) {
-        return totalAffordPackById[_id];
-    }
-    
     function register(string memory _orgName, string memory _orglink, string memory _orgPic, uint firstPackType) public payable {   // firstPackType can be 0,1,2 => 50,150,unlimited
         require(firstPackType < 3, "PNF");
         require(msg.value == PackagePrice[firstPackType], "WV");
         OrganizationContract newOrganization = new OrganizationContract(orgCount, _orgName, _orglink, _orgPic);
         allOrganizations.push(Organization(orgCount, _orgName, msg.sender, address(newOrganization)));
+        isOrgAddress[address(newOrganization)] = true;
         totalAffordPackById[orgCount][firstPackType]++;
         orgCount++;
         emit Register(Organization(orgCount, _orgName, msg.sender, address(newOrganization)));
@@ -72,13 +67,15 @@ contract CertSystemLayer1 {
     mapping(string => address) public ipfsToActAddress;           //return which activity address contain the certificate ipfs  ||  call this mapping to verify ipfs
     
     function setIpfsToActAddress(string memory _ipfs) public returns(bool) {
-        require(ActivityContract(msg.sender).layer1ContractAddress() == address(this), "NE");
+        require(isOrgAddress[ActivityContract(msg.sender).orgAddress()], "NO");
+        require(OrganizationContract(ActivityContract(msg.sender).orgAddress()).isActAddress(msg.sender), "NA");
         ipfsToActAddress[_ipfs] = msg.sender;
         return true;
     }
 
     function deleteIpfs(string memory _ipfs) public returns(bool) {
-        require(ActivityContract(msg.sender).layer1ContractAddress() == address(this), "NE");
+        require(isOrgAddress[ActivityContract(msg.sender).orgAddress()], "NO");
+        require(OrganizationContract(ActivityContract(msg.sender).orgAddress()).isActAddress(msg.sender), "NA");
         ipfsToActAddress[_ipfs] = address(0);
         return true;
     }

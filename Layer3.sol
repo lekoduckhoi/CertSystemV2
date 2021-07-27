@@ -7,7 +7,6 @@ import "./Layer2.sol";
 contract ActivityContract {
     
     //layer1Contract info
-    address public layer1ContractAddress;
     CertSystemLayer1 layer1Contract;
     
     //Activity Info
@@ -39,11 +38,11 @@ contract ActivityContract {
     }
  
     //constructor
-    constructor(uint _activityId, string memory _activityName, address _orgAddress, string memory _actPic, string memory _link, uint _packagetype) {
+    constructor(uint _activityId, string memory _activityName, string memory _actPic, string memory _link, uint _packagetype) {
         //act info
         activityId = _activityId;
         activityName = _activityName;
-        orgAddress = _orgAddress;
+        orgAddress = msg.sender;
         actPic = _actPic;
         link = _link;
         owner = tx.origin;
@@ -54,13 +53,12 @@ contract ActivityContract {
             maxCertificateNumber = 150;
         } // else maxCertificateNumber = 0 by default, => unlimited
         //layer1 contract info
-        layer1ContractAddress = OrganizationContract(msg.sender).layer1ContractAddress();
-        layer1Contract = CertSystemLayer1(layer1ContractAddress);
+        layer1Contract = OrganizationContract(msg.sender).layer1Contract();
     }
     
     //cert
-    event AddCertificate(Certificate newcert);
-    event RemoveCertificate(Certificate removecert);
+    event AddCertificate(Certificate Newcert);
+    event RemoveCertificate(Certificate Removecert);
     
     mapping(string => Certificate) public certificateById;
     
@@ -72,11 +70,7 @@ contract ActivityContract {
         string id;    //sha1
         string ipfsHash;
     }
-    /*
-    function viewAllCertId() public view returns(string[] memory) {
-        return allCertId;
-    }
-    */
+    
     function addNewCerificate(string memory _issueTo, string memory _id, string memory _ipfsHash) public {
         require(msg.sender == owner, "NO");
         if(maxCertificateNumber != 0) require(certCount < maxCertificateNumber, "LR");

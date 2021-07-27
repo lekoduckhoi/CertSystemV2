@@ -6,8 +6,7 @@ import "./Layer1.sol";
 
 contract OrganizationContract {
     
-    address public layer1ContractAddress;
-    CertSystemLayer1 layer1Contract;
+    CertSystemLayer1 public layer1Contract;
     
     uint public orgId;
     string public orgName;
@@ -42,7 +41,6 @@ contract OrganizationContract {
         orgPic = _orgPic;
         owner = tx.origin;
         layer1Contract = CertSystemLayer1(msg.sender);
-        layer1ContractAddress = msg.sender;
     }
     
     //Acitivities
@@ -58,6 +56,8 @@ contract OrganizationContract {
         address acitivityContractAddress;
     }
     
+    mapping(address => bool) public isActAddress;
+    
     function viewAllActivities() public view returns(Activity[] memory) {
         return allActivities;
     }
@@ -65,9 +65,10 @@ contract OrganizationContract {
     function addNewActivity(string memory _activityName, string memory _actPic, string memory _link, uint _packageType) public {
         require(msg.sender == owner, "NO");
         require(_packageType < 3, 'WPT');
-        require(totalUsedPack[_packageType] < layer1Contract.viewTotalPackById(orgId)[_packageType], "PL");
-        ActivityContract newActivty = new ActivityContract(activityCount, _activityName, address(this), _actPic, _link, _packageType);
+        require(totalUsedPack[_packageType] < layer1Contract.totalAffordPackById(orgId, _packageType),"PL");
+        ActivityContract newActivty = new ActivityContract(activityCount, _activityName, _actPic, _link, _packageType);
         allActivities.push(Activity(activityCount,_packageType, _activityName, address(newActivty)));
+        isActAddress[address(newActivty)] = true;
         activityCount++;
         totalUsedPack[_packageType]++;
         emit AddActivity(Activity(activityCount,_packageType, _activityName, address(newActivty)));
