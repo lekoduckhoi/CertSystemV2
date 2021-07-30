@@ -21,10 +21,60 @@
   #content{
     padding-top: 1rem;
   }
+  .course{
+    display: block;
+  }
   #certification{
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .course__find__image,.course__image{
+    height: 4rem;
+    width: 4rem;
+  }
+  .courseinfo__find__name,.courseinfo__name{
+    font-size: 1.2rem;
+    margin-left: 6rem;
+    margin-top: 1rem;
+  }
+  .course,.course__find__info{
+    position: relative;
+  }
+  .courseinfo,.courseinfo__find{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    width: 100%
+  }
+  .courseinfo__find p:nth-child(2),.courseinfo p:nth-child(2){
+    margin-top: 3rem;
+  }
+  .course__find__image img,.course__image img{
+    max-height: 100%;
+    max-width: 100%;
+  }
+  .course__button{
+    margin-top: 10rem;
+    padding-left: 2rem;
+  }
+  .gotocert{
+    padding: 1rem 5rem;
+  }
+  #courses{
+    margin-right: 2rem;
+  }
+  #certification::-webkit-scrollbar{
+    display: none;
+  }
+  #certification::-webkit-scrollbar-track{
+    display: none;
+  }
+  #certification::-webkit-scrollbar-thumb{
+    display: none;
   }
   #cert__find{
     display: flex;

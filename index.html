@@ -46,33 +46,30 @@
             <div class="courseinfo__find">
               <h2 class="courseinfo__find__name"></h2>
               <p class="courseinfo__find__id">ID: </p>
-              <p class="courseinfo__find__issued">Issued by: </p>
+              <p class="courseinfo__find__issued">Issued by: Viasm</p>
               <p class="courseinfo__find__address">Address: </p>
-              <p class="courseinfo__find__info">Info: </p>
+              <p class="courseinfo__find__info">Info: <a href="" class="courseinfo__find__info__a"></a></p>
             </div>
           </div>
           <h2>Find your Certification</h2>
           <form id="cert__find">
-            <input type="text" name="input__cert" id="input" placeholder="Type in address or your citizen identification number ...">
+            <input type="text" name="input__cert" id="input" placeholder="Type in your citizen identification number ...">
             <input type="button" name="Find" id="submit" value="Find">
           </form>`
           <div id="cert__found" class="hidden"> 
             <div  class="details">
-              <!-- style="text-align: center;" -->
               <h1 id="abcd"></h1>
               <br>
               <p id="course"></p>
-              <p id="issuedBy"></p>
+              <p id="issuedBy">Viasm</p>
               <p id="issuedTo"></p>
               <p id="bcaddress"></p>
               <p id="idhash"></p>
-              <!-- add curriculum link here -->
               <p id="more">Course content (see below): <a id="curriculum" target="_blank" href="https://gateway.pinata.cloud/ipfs/Qmedp8cmzUWZzPuWxbaYG6w7sEu9BCYhXD498U3GtuFR9F">https://ipfs.io/ipfs/Qmedp8cmzUWZzPuWxbaYG6w7sEu9BCYhXD498U3GtuFR9F</a></p>
             </div>
             <p id="link">Certificate IPFS link: <a target="_blank" id="link__downloadable" href="" download rel="noopener noreferrer" target="_blank"></a></p>
             <br>
             <img src="" id="certImg" alt="Default image">
-            <img src="https://gateway.pinata.cloud/ipfs/Qmedp8cmzUWZzPuWxbaYG6w7sEu9BCYhXD498U3GtuFR9F" alt="">
           </div>
         </div>
       </div>
@@ -98,7 +95,7 @@
           </div>
         </div>
         <div class="verify__text">
-          <p class="verify__text__right hidden">Verify successfully! This certification was issued by Vietnam Institute for Advanced Study in Mathematics (VIASM).<br><a target="_blank" href="https://gateway.pinata.cloud/ipfs/Qmedp8cmzUWZzPuWxbaYG6w7sEu9BCYhXD498U3GtuFR9F">Course Content</a></p>
+          <p class="verify__text__right hidden">Verify successfully! This certification was issued by Vietnam Institute for Advanced Study in Mathematics (VIASM).<br><button id="toProgram">Program Information</button></p>
           <p class="verify__text__wrong hidden">Verify failed! We don't recognize this certification.</p>
         </div>
       </div>

@@ -108,7 +108,7 @@ header{
   overflow: hidden;
   width: inherit;
   padding: 2rem;
-  background-color: #f3f3f3;
+  background-color: #d8d8d8;
   min-height: calc(100vh - 16rem);
   transition: .5s;
 }
@@ -128,7 +128,7 @@ header{
   margin-right: 4rem;
 }
 .course,.course__find__info{
-  min-height: 16rem;
+  min-height: 20rem;
   width: auto;
   margin-bottom: 2rem;
   background: #ffffff;
@@ -136,37 +136,63 @@ header{
   display: flex;
   flex-direction: row;
   padding: 2rem;
-  box-shadow: 0 0 4px gray;
+  box-shadow: 0 0 6px gray,
+  0 0 4px gray;
 }
 .course__image,.course__find__image{
-  width: 12rem;
-  height: 12rem;
+  width: 16rem;
+  height: 16rem;
   position: relative;
+  outline: 1px solid black;
+  box-shadow: 1px 1px 3px gray;
 }
 .course__image img,.course__find__image img{
-  width: auto;
-  height: 12rem;
+  max-width: 100%;
+  max-height: 14rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  outline: 1px solid black;
-  border: 2px;
-  box-shadow: 1px 1px 3px gray;
 }
-.courseinfo,.courseinfo__find{
-  min-width: 60%;
+.courseinfo{
+  width: calc(100% - 35rem);
   padding-left: 4rem;
+}
+.courseinfo__find{
+  width: calc(100% - 20rem);
+  padding-left: 4rem;
+}
+.courseinfo__find__address,.courseinfo__address{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .courseinfo p,.courseinfo__find p{
   font-size: 1.2rem;
+  padding: 4px;
+}
+.courseinfo__info,.courseinfo__find__info{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.courseinfo__info a,.courseinfo__find__info a{
+  font-size: 1em;
+  text-decoration: none;
+  color: #0076e4;
+}
+.courseinfo__info a:hover,.courseinfo__find__info a:hover{
+  text-decoration: underline;
+  text-decoration-color: #0076e4;
 }
 .courseinfo__name,.courseinfo__find__name{
   color: #3278ce;
   text-align: center;
+  font-size: 2.5rem;
 }
 .course__button{
-  padding: 4rem 2rem;
+  margin-left: auto;
+  padding: 6rem 1rem 0;
 }
 .gotocert{
   border: none;
@@ -179,10 +205,6 @@ header{
 }
 .gotocert:hover{
   background: #004fb6;
-}
-.gotocert i{
-  display: inline;
-  font-size: 1.2rem;
 }
 .course__findcert{
   width: 45%;
@@ -257,19 +279,14 @@ h2{
   overflow-y: scroll;
   transition: .5s;
 }
-#certification::-webkit-scrollbar{
-  width: 10px;
-  margin-left: 1rem;
+.courseinfo__info a{
+  font-size: 1em;
+  text-decoration: none;
+  color: #0076e4;
 }
-#certification::-webkit-scrollbar-track{
-  background: #f3f3f3;
-}
-#certification::-webkit-scrollbar-thumb{
-  background: #b4b4b4;
-  border-radius: 5px;
-}
-#certification::-webkit-scrollbar-thumb:hover{
-  background: #979797;
+.courseinfo__info a:hover{
+  text-decoration: underline;
+  text-decoration-color: #0076e4;
 }
 /* to here */
 
