@@ -1002,9 +1002,9 @@ lay2con.methods.programCount().call((err, prgcount) => {
 	for(let i = 0; i < prgcount; i++) {
 		lay2con.methods.allPrograms(i).call((err,program) => {
 			const lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
-			$("#address"+String(i)).html(program.programContractAddress)
+			$("#address"+String(i)).html("Address: " + program.programContractAddress)
 			lay3con.methods.programId().call((err, _id) => {
-				$("#id"+String(i)).html(_id)
+				$("#id"+String(i)).html("Id: "+_id)
 			})
 			lay3con.methods.programName().call((err, _name) => {
 				$("#name"+String(i)).html(_name)
@@ -1024,9 +1024,9 @@ function gotoProgram(n) {
   lay2con.methods.allPrograms(n).call((err,program) => {
 		findByAddress = program.programContractAddress
     let lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
-		$('.courseinfo__find__address').html(program.programContractAddress)
+		$('.courseinfo__find__address').html("Address: " + program.programContractAddress)
 		lay3con.methods.programId().call((err, _id) => {
-			$('.courseinfo__find__id').html(_id)
+			$('.courseinfo__find__id').html("Id: "+_id)
 		})
 		lay3con.methods.programName().call((err, _name) => {
 			$('.courseinfo__find__name').html(_name)
@@ -1038,10 +1038,12 @@ function gotoProgram(n) {
 			$('.course__find__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
 		})
 	})
-  const backtv = document.querySelector('.backtocourse')
-  backtv.scrollIntoView();
-  const backtv1 = document.querySelector('body')
-  backtv1.scrollIntoView();
+	setTimeout(function(){
+		const backtv = document.querySelector('.backtocourse')
+		backtv.scrollIntoView();
+		const backtv1 = document.querySelector('body')
+		backtv1.scrollIntoView();
+	  },1500)
   
 }
 
@@ -1051,7 +1053,7 @@ submit.addEventListener('click',()=>{
 	cert_found.classList.add('hidden')
 	let certId = $("#input").val()
 	let lay3con = new web3.eth.Contract(lay3Abi, findByAddress)
-  lay3con.methods.certificateById(SHA1(certId)).call((err, res) => {
+  	lay3con.methods.certificateById(SHA1(certId)).call((err, res) => {
 		if(res.issueTo == ""){
 			alert("cert not found")
 			//cert_found.classList.remove('hidden')
@@ -1077,7 +1079,7 @@ submit.addEventListener('click',()=>{
 //verify
 
 let verify_button = document.getElementById('verify__button')
-let check = false // sá»­a dĂ²ng nĂ y
+
     var file;
     var inpFile = document.getElementById("myFile");
     $("#verify__button").click(function() {
@@ -1088,10 +1090,10 @@ let check = false // sá»­a dĂ²ng nĂ y
             alert("Please chose an image")
 			$("#load").hide();
         } else {
-            	checked__right.classList.add('hidden')
-                  text_right.classList.add('hidden')
-				  checked__wrong.classList.add('hidden')
-                  text_wrong.classList.add('hidden')
+            checked__right.classList.add('hidden')
+            text_right.classList.add('hidden')
+			checked__wrong.classList.add('hidden')
+            text_wrong.classList.add('hidden')
 			let data = new FormData();
             data.append('file', file);
             //pin to take cid
@@ -1107,8 +1109,8 @@ let check = false // sá»­a dĂ²ng nĂ y
               cid = response.data.IpfsHash;
               lay1con.methods.ipfsToProgramAddress(cid).call((err, res1) => {
                 if(res1 != "0x0000000000000000000000000000000000000000"){   //ipfs found
-				          $("#load").hide();
-				          checked__right.classList.remove('hidden')
+				  $("#load").hide();
+				  checked__right.classList.remove('hidden')
                   text_right.classList.remove('hidden')
                   $("#toProgram").click(() =>{
                     selected.style.left = selected.style.left === '50%' ? '' :'50%'
@@ -1119,6 +1121,12 @@ let check = false // sá»­a dĂ²ng nĂ y
                     text_right.classList.add('hidden')
                     text_wrong.classList.add('hidden')
                     $('.certblock').css('left','-50%')
+					setTimeout(function(){
+						const backtv = document.querySelector('.backtocourse')
+						backtv.scrollIntoView();
+						const backtv1 = document.querySelector('body')
+						backtv1.scrollIntoView();
+					},1500)
                     let lay3con = new web3.eth.Contract(lay3Abi, res1)
                     $('.courseinfo__find__address').html(res1)
 		                lay3con.methods.programId().call((err, _id) => {
@@ -1133,7 +1141,6 @@ let check = false // sá»­a dĂ²ng nĂ y
 		                lay3con.methods.programPic().call((err, _pic) => {
 		                	$('.course__find__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
 		                })
-	                  
                   })
                 }
                 else { //ipfs not found
