@@ -79,7 +79,7 @@ contract ProgramContract {
     
     function removeCertById(string memory _id) public {
         require(msg.sender == owner, "NO");
-        require(keccak256(abi.encodePacked((allCertId[certificateById[_id].certNumber]))) == keccak256(abi.encodePacked((""))), "AR"); //check if cert exists
+        require(keccak256(abi.encodePacked((allCertId[certificateById[_id].certNumber]))) != keccak256(abi.encodePacked((""))), "AR"); //check if cert exists
         require(layer2Contract.modifyTotalCert(false), "CM");
         //for verify system
         require(layer1Contract.setIpfsToActAddress(certificateById[_id].ipfsHash, false), "CS");
