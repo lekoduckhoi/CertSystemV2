@@ -8,6 +8,15 @@ let checked__right = document.querySelector('.checked__right')
 let text_right = document.querySelector('.verify__text__right')
 let text_wrong = document.querySelector('.verify__text__wrong')
 $("#load").hide();
+$("#goback").click(function() {
+  $('.certblock').css('left','50%')
+})
+document.querySelector('.selected').addEventListener('click',function(){
+  if(document.querySelector('.selected').style.left == ''){
+    $('.certblock').css('left','50%')
+  }
+})
+
 function transformx(i){
   selected.style.left = selected.style.left === '50%' ? '' :'50%'
   if(i===1){
