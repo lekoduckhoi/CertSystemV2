@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 *{
   --background:rgb(130,130,130);
   --theme-color:#08addf;
@@ -60,6 +61,14 @@ header{
 #header__logo{
   height: 4rem;
   margin: 1rem 1rem;
+}
+.header__name{
+  font-family: poppins;
+  margin-left: auto;
+  margin-top: 1.2rem;
+  font-weight: 600;
+  color: #5f5f5f;
+  font-size: 2.2rem;
 }
 #navbar{
   position: relative;
@@ -300,9 +309,10 @@ h2{
   position: relative;
   height: 28rem;
   width: 70%;
-  background: rgb(203,220,225);
+  background: rgb(248, 248, 248);
   margin-right: 2rem;
   border-radius: .5rem;
+  box-shadow: 2px 2px 4px gray;
 }
 .verify__left__uploadbox{
   position: absolute;
@@ -376,9 +386,15 @@ strong{
   background: #30C06D;
   animation: icon 1s linear 1;
 }
-.checked__wrong{
-  background: #F70000;
-  animation: icon 1s linear 1;
+.checked__wrong__img{
+  height: 8rem;
+  width: 8rem;
+  animation: cycle 30s linear infinite;
+}
+@keyframes cycle{
+  to{
+    transform: rotate(360deg);
+  }
 }
 .circle .fa{
   font-size: 2em;
@@ -461,7 +477,3 @@ strong{
   margin-right: auto;
   width: 30%;
 }
-/* #toProgram {
-  background-color: #27bce9;
-  border: none;
-} */
