@@ -66,6 +66,7 @@ header{
   font-family: poppins;
   margin-left: auto;
   margin-top: 1.2rem;
+  margin-right: 2rem;
   font-weight: 600;
   color: #5f5f5f;
   font-size: 2.2rem;
@@ -386,15 +387,9 @@ strong{
   background: #30C06D;
   animation: icon 1s linear 1;
 }
-.checked__wrong__img{
-  height: 8rem;
-  width: 8rem;
-  animation: cycle 30s linear infinite;
-}
-@keyframes cycle{
-  to{
-    transform: rotate(360deg);
-  }
+.checked__wrong{
+  background: #F70000;
+  animation: icon 1s linear 1;
 }
 .circle .fa{
   font-size: 2em;
@@ -477,3 +472,7 @@ strong{
   margin-right: auto;
   width: 30%;
 }
+/* #toProgram {
+  background-color: #27bce9;
+  border: none;
+} */
