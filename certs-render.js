@@ -8,12 +8,12 @@ function add(n){
     <img id="image${i}" src="" alt="course image preview">
   </div>
   <div class="courseinfo">
-    <h2 id="name${i}" class="courseinfo__name"></h2>
-    <p id="id${i}" class="courseinfo__id">ID: </p>
-    <p id="issued${i}" class="courseinfo__issued">Issued by: Viasm</p>
-    <p id="address${i}" class="courseinfo__address">Address: }</p>
-    <p class="courseinfo__info">Info: <a id="info${i}" href=""></a></p>
-  </div>
+  	<h2 id="name${i}" class="courseinfo__name"></h2>
+  	<p id="date${i}" class="courseinfo__date">Date: </p>
+  	<p id="issued${i}" class="courseinfo__issued">Issued by: Vietnam Institute for Advanced Study in Mathematics (VIASM)</p>
+  	<p id="address${i}" class="courseinfo__address">Address: }</p>
+  	<p class="courseinfo__info">Information: <a id="info${i}" href=""></a></p>
+  	</div>
   <div class="course__button">
     <button onclick="gotoProgram(${i})" class="gotocert">Find</button>
   </div>`
@@ -24,8 +24,8 @@ document.querySelector('.backtocourse').addEventListener('click',function(){
   $('.certblock').css('left','50%')
 })
 const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545/")
-const lay1Address = "0x8747C81f78ed53EE20E10014109c1bFda529Ca13"
-const lay2Address = "0x1A1e755b51fB6e9b1F44Fc7F72F3712018442694"
+const lay1Address = "0xcb0A065aBc63C3066d17FEA31A0f950f69f1869B"
+const lay2Address = "0x654408979976c7b73ac1755dd4Bb2B528E95c3DA"
 const lay1Abi = [
 	{
 		"inputs": [],
@@ -46,11 +46,6 @@ const lay1Abi = [
 						"internalType": "string",
 						"name": "orgName",
 						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "orgOwner",
-						"type": "address"
 					},
 					{
 						"internalType": "address",
@@ -86,11 +81,6 @@ const lay1Abi = [
 				"internalType": "string",
 				"name": "orgName",
 				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "orgOwner",
-				"type": "address"
 			},
 			{
 				"internalType": "address",
@@ -364,61 +354,6 @@ const lay2Abi = [
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "programContractAddress",
-						"type": "address"
-					}
-				],
-				"indexed": false,
-				"internalType": "struct OrganizationContract.Program",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"name": "RemoveProgram",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "OrgId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "OrgName",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "Orglink",
-				"type": "string"
-			}
-		],
-		"name": "UpdateInfo",
-		"type": "event"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -433,6 +368,16 @@ const lay2Abi = [
 			{
 				"internalType": "string",
 				"name": "_link",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_date",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_issuedBy",
 				"type": "string"
 			}
 		],
@@ -628,11 +573,6 @@ const lay2Abi = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_orgId",
-				"type": "uint256"
-			},
-			{
 				"internalType": "string",
 				"name": "_orgName",
 				"type": "string"
@@ -658,11 +598,6 @@ const lay3Abi = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_programId",
-				"type": "uint256"
-			},
-			{
 				"internalType": "string",
 				"name": "_programName",
 				"type": "string"
@@ -675,6 +610,16 @@ const lay3Abi = [
 			{
 				"internalType": "string",
 				"name": "_link",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_date",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_issuedBy",
 				"type": "string"
 			}
 		],
@@ -749,31 +694,6 @@ const lay3Abi = [
 			}
 		],
 		"name": "RemoveCertificate",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "ProgramName",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "Pic",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "Link",
-				"type": "string"
-			}
-		],
-		"name": "UpdateInfo",
 		"type": "event"
 	},
 	{
@@ -854,6 +774,45 @@ const lay3Abi = [
 	},
 	{
 		"inputs": [],
+		"name": "date",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "issuedBy",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "layer2Contract",
+		"outputs": [
+			{
+				"internalType": "contract OrganizationContract",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "link",
 		"outputs": [
 			{
@@ -867,38 +826,12 @@ const lay3Abi = [
 	},
 	{
 		"inputs": [],
-		"name": "orgAddress",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "owner",
 		"outputs": [
 			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "programId",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -985,6 +918,16 @@ const lay3Abi = [
 				"internalType": "string",
 				"name": "_link",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_date",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_issuedBy",
+				"type": "string"
 			}
 		],
 		"name": "updateInfo",
@@ -1002,8 +945,8 @@ lay2con.methods.programCount().call((err, prgcount) => {
 		lay2con.methods.allPrograms(i).call((err,program) => {
 			const lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
 			$("#address"+String(i)).html("Address: " + program.programContractAddress)
-			lay3con.methods.programId().call((err, _id) => {
-				$("#id"+String(i)).html("Id: "+_id)
+			lay3con.methods.date().call((err, _date) => {
+				$("#date"+String(i)).html("Date: "+_date)
 			})
 			lay3con.methods.programName().call((err, _name) => {
 				$("#name"+String(i)).html(_name)
@@ -1014,6 +957,9 @@ lay2con.methods.programCount().call((err, prgcount) => {
 			lay3con.methods.programPic().call((err, _pic) => {
 				$("#image"+String(i)).attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
 			})
+			lay3con.methods.issuedBy().call((err, _issued) => {
+				$("#issued"+String(i)).html("Issued By: " + _issued)
+			})
 		})
 	}
 })
@@ -1022,10 +968,10 @@ function gotoProgram(n) {
   $('.certblock').css('left','-50%')
   lay2con.methods.allPrograms(n).call((err,program) => {
 		findByAddress = program.programContractAddress
-    let lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
+    	let lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
 		$('.courseinfo__find__address').html("Address: " + program.programContractAddress)
-		lay3con.methods.programId().call((err, _id) => {
-			$('.courseinfo__find__id').html("Id: "+_id)
+		lay3con.methods.date().call((err, _date) => {
+			$('.courseinfo__find__date').html("Date: "+_date)
 		})
 		lay3con.methods.programName().call((err, _name) => {
 			$('.courseinfo__find__name').html(_name)
@@ -1035,6 +981,9 @@ function gotoProgram(n) {
 		})
 		lay3con.methods.programPic().call((err, _pic) => {
 			$('.course__find__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
+		})
+		lay3con.methods.issuedBy().call((err, _issuedBy) => {
+  			$('.courseinfo__find__issued').html("Issued by: " + _issuedBy)
 		})
 	})
 	setTimeout(function(){
@@ -1063,13 +1012,16 @@ submit.addEventListener('click',()=>{
 			cert_found.classList.remove('hidden')
 			$("#certImg").attr("src", "https://gateway.pinata.cloud/ipfs/"+res.ipfsHash)
 			$("#abcd").html("CERTIFICATE DETAILS")
-			$("#issuedBy").html("Issued By: Vietnam Institute for Advanced Study in Mathematics (VIASM).")
-			$("#course").html("Course: BLOCKCHAIN MATHEMATICS AND COMPUTING")
-			$("#bcaddress").html("Blockchain Address: " + findByAddress)
-      $("#idhash").html("Recipient ID hash: " + SHA1(certId))
+      		$("#idhash").html("Recipient ID hash: " + SHA1(certId))
 			$("#issuedTo").html("Issued To: " + res.issueTo)
 			$("#link__downloadable").attr("href","https://gateway.pinata.cloud/ipfs/"+res.ipfsHash)
 			$("#link__downloadable").html("https://gateway.pinata.cloud/ipfs/"+res.ipfsHash)
+			lay3con.methods.programName().call((err, _name) => {
+				$("#course").html("Course: "+_name)
+			})
+			lay3con.methods.issuedBy().call((err, _issued) => {
+				$("#issuedBy").html("Issued By: "+_issued)
+			})
 		}
 	})
   
@@ -1126,20 +1078,23 @@ let verify_button = document.getElementById('verify__button')
 						const backtv1 = document.querySelector('body')
 						backtv1.scrollIntoView();
 					},1500)
-                    let lay3con = new web3.eth.Contract(lay3Abi, res1)
-                    $('.courseinfo__find__address').html(res1)
-		                lay3con.methods.programId().call((err, _id) => {
-		                	$('.courseinfo__find__id').html(_id)
-		                })
-		                lay3con.methods.programName().call((err, _name) => {
-		                	$('.courseinfo__find__name').html(_name)
-		                })
-		                lay3con.methods.link().call((err, _link) => {
-		                	$('.courseinfo__find__info__a').html(_link)
-		                })
-		                lay3con.methods.programPic().call((err, _pic) => {
-		                	$('.course__find__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
-		                })
+                    	let lay3con = new web3.eth.Contract(lay3Abi, res1)
+                    	$('.courseinfo__find__address').html(res1)
+						lay3con.methods.date().call((err, _date) => {
+							$('.courseinfo__add__date').html("Date: "+_date)
+						})
+						lay3con.methods.programName().call((err, _name) => {
+							$('.courseinfo__add__name').html(_name)
+						})
+						lay3con.methods.link().call((err, _link) => {
+							$('.courseinfo__add__info__a').html(_link)
+						})
+						lay3con.methods.programPic().call((err, _pic) => {
+							$('.course__add__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
+						})
+						lay3con.methods.issuedBy().call((err, _issuedBy) => {
+				  		$('.courseinfo__add__issued').html("Issued by: " + _issuedBy)
+						})
                   })
                 }
                 else { //ipfs not found
