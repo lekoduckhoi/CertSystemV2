@@ -11,8 +11,8 @@ function add(n){
   	<h2 id="name${i}" class="courseinfo__name"></h2>
   	<p id="date${i}" class="courseinfo__date">Date: </p>
   	<p id="issued${i}" class="courseinfo__issued">Issued by: Vietnam Institute for Advanced Study in Mathematics (VIASM)</p>
-  	<p id="address${i}" class="courseinfo__address">Address: }</p>
-  	<p class="courseinfo__info">Information: <a id="info${i}" href=""></a></p>
+  	<p id="address${i}" class="courseinfo__address">Smart Contract Address: }</p>
+  	<p class="courseinfo__info">Course Information: <a id="info${i}" href=""></a></p>
   	</div>
   <div class="course__button">
     <button onclick="gotoProgram(${i})" class="gotocert">Find</button>
@@ -944,7 +944,7 @@ lay2con.methods.programCount().call((err, prgcount) => {
 	for(let i = 0; i < prgcount; i++) {
 		lay2con.methods.allPrograms(i).call((err,program) => {
 			const lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
-			$("#address"+String(i)).html("Address: " + program.programContractAddress)
+			$("#address"+String(i)).html("Smart Contract Address: " + program.programContractAddress)
 			lay3con.methods.date().call((err, _date) => {
 				$("#date"+String(i)).html("Date: "+_date)
 			})
@@ -969,7 +969,7 @@ function gotoProgram(n) {
   lay2con.methods.allPrograms(n).call((err,program) => {
 		findByAddress = program.programContractAddress
     	let lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
-		$('.courseinfo__find__address').html("Address: " + program.programContractAddress)
+		$('.courseinfo__find__address').html("Smart Contract Address: " + program.programContractAddress)
 		lay3con.methods.date().call((err, _date) => {
 			$('.courseinfo__find__date').html("Date: "+_date)
 		})
