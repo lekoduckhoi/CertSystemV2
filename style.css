@@ -172,7 +172,7 @@ header{
   width: calc(100% - 20rem);
   padding-left: 4rem;
 }
-.courseinfo__find__address,.courseinfo__address{
+.courseinfo__find__id,.courseinfo__id{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

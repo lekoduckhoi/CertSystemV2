@@ -1,6 +1,6 @@
 
 function add(n){
-  for(var i=0;i<n;i++){
+  for(var i=n-1;i>=0;i--){
   const course = document.createElement('div')
   course.classList.add('course')
   course.innerHTML =
@@ -9,11 +9,11 @@ function add(n){
   </div>
   <div class="courseinfo">
   	<h2 id="name${i}" class="courseinfo__name"></h2>
+	<p id="id${i}" class="courseinfo__id">Course Id: }</p>
   	<p id="date${i}" class="courseinfo__date">Date: </p>
   	<p id="issued${i}" class="courseinfo__issued">Issued by: Vietnam Institute for Advanced Study in Mathematics (VIASM)</p>
-  	<p id="address${i}" class="courseinfo__address">Smart Contract Address: }</p>
   	<p class="courseinfo__info">Course Information: <a id="info${i}" href=""></a></p>
-  	</div>
+</div>
   <div class="course__button">
     <button onclick="gotoProgram(${i})" class="gotocert">Find</button>
   </div>`
@@ -944,7 +944,7 @@ lay2con.methods.programCount().call((err, prgcount) => {
 	for(let i = 0; i < prgcount; i++) {
 		lay2con.methods.allPrograms(i).call((err,program) => {
 			const lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
-			$("#address"+String(i)).html("Smart Contract Address: " + program.programContractAddress)
+			$("#id"+String(i)).html("Course Id: " + i)
 			lay3con.methods.date().call((err, _date) => {
 				$("#date"+String(i)).html("Date: "+_date)
 			})
@@ -969,7 +969,7 @@ function gotoProgram(n) {
   lay2con.methods.allPrograms(n).call((err,program) => {
 		findByAddress = program.programContractAddress
     	let lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
-		$('.courseinfo__find__address').html("Smart Contract Address: " + program.programContractAddress)
+		$('.courseinfo__find__id').html("Course Id: " + n)
 		lay3con.methods.date().call((err, _date) => {
 			$('.courseinfo__find__date').html("Date: "+_date)
 		})
@@ -1079,7 +1079,7 @@ let verify_button = document.getElementById('verify__button')
 						backtv1.scrollIntoView();
 					},1500)
                     	let lay3con = new web3.eth.Contract(lay3Abi, res1)
-                    	$('.courseinfo__find__address').html(res1)
+                    	$('.courseinfo__find__id').html(res1)
 						lay3con.methods.date().call((err, _date) => {
 							$('.courseinfo__add__date').html("Date: "+_date)
 						})
