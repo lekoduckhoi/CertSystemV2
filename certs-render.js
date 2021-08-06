@@ -1125,3 +1125,53 @@ let verify_button = document.getElementById('verify__button')
             });
         }
     });   
+
+	$(".FindCourseBtn").click(function(){
+		var finId = Number($("#FindCourse").val())
+		lay2con.methods.programCount().call((err, prgcount) => {
+			if(!Number.isInteger(finId) || finId < 0){
+				alert("Id must be an non negative integer")
+			} else if(finId >= prgcount) {
+				alert("Id must be smaller than " + prgcount)
+			} else {
+				$(".course").remove()
+				const course = document.createElement('div')
+				  course.classList.add('course')
+				  course.innerHTML =
+				  `<div class="course__image">
+					<img id="image${finId}" src="" alt="course image preview">
+				  </div>
+				  <div class="courseinfo">
+					<h2 id="name${finId}" class="courseinfo__name"></h2>
+					  <p id="id${finId}" class="courseinfo__id">Course Id: }</p>
+					  <p id="date${finId}" class="courseinfo__date">Date: </p>
+					  <p id="issued${finId}" class="courseinfo__issued">Issued by: Vietnam Institute for Advanced Study in Mathematics (VIASM)</p>
+					  <p class="courseinfo__info">Course Information: <a id="info${finId}" href=""></a></p>
+				  </div>
+				  <div class="course__button">
+					<button onclick="gotoProgram(${finId})" class="gotocert">Find</button>
+				  </div>`
+				$("#courses").append(course)
+			
+				lay2con.methods.allPrograms(finId).call((err,program) => {
+					const lay3con = new web3.eth.Contract(lay3Abi, program.programContractAddress)
+					$("#id"+String(finId)).html("Id: " + finId)
+					lay3con.methods.date().call((err, _date) => {
+						$("#date"+String(finId)).html("Date: "+_date)
+					})
+					lay3con.methods.programName().call((err, _name) => {
+						$("#name"+String(finId)).html(_name)
+					})
+					lay3con.methods.link().call((err, _link) => {
+						$("#info"+String(finId)).html(_link)
+					})
+					lay3con.methods.programPic().call((err, _pic) => {
+						$("#image"+String(finId)).attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
+					})
+					lay3con.methods.issuedBy().call((err, _issued) => {
+						$("#issued"+String(finId)).html("Issued By: " + _issued)
+					})
+				})
+			}
+		})
+	})
