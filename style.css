@@ -17,12 +17,12 @@
 }
 @media screen and (min-width :1800px){
   *{
-    font-size: 22px;
+    font-size: 22.5px;
   }
 }
-@media screen and (min-width : 2200px){
+@media screen and (min-width : 2500px){
   *{
-    font-size: 25px;
+    font-size: 32px;
   }
 }
 *::before,*::after{
@@ -136,6 +136,42 @@ header{
 #courses{
   width: 48%;
   margin-right: 4rem;
+  position: relative;
+}
+.FindCourseBl{
+  margin: .5rem 0 2rem;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 50%;
+  background: white;
+  padding: 1rem 0;
+  z-index: 10;
+  width: 100%;
+  height: fit-content;
+}
+#FindCourse{
+  padding: .75rem 1rem;
+  width: 75%;
+  margin-left: 2rem;
+  margin-right: 1rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: calc(100% - 2px - 18rem);
+}
+.FindCourseBtn{
+  margin-left: 1rem;
+  margin-right: 2rem;
+  padding: .75rem 3.5rem;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 0 4px gray;
+  background: #0062e4;
+  color: white;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+.FindCourseBtn:hover{
+  background: #0057c9;
 }
 .course,.course__find__info{
   min-height: 20rem;
