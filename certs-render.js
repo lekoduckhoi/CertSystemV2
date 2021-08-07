@@ -23,9 +23,9 @@ function add(n){
 document.querySelector('.backtocourse').addEventListener('click',function(){
   $('.certblock').css('left','50%')
 })
-const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545/")
-const lay1Address = "0xcb0A065aBc63C3066d17FEA31A0f950f69f1869B"
-const lay2Address = "0x654408979976c7b73ac1755dd4Bb2B528E95c3DA"
+const web3 = new Web3("https://bsc-dataseed.binance.org/")
+const lay1Address = "0x65c7B6d15F3883a08B9009690B9206AAf2b021c4"
+const lay2Address = "0x8D325a1b27FeaFEE9E35B8EDd52A0f89743C80da"
 const lay1Abi = [
 	{
 		"inputs": [],
