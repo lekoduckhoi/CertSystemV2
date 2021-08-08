@@ -1079,21 +1079,21 @@ let verify_button = document.getElementById('verify__button')
 						backtv1.scrollIntoView();
 					},1500)
                     	let lay3con = new web3.eth.Contract(lay3Abi, res1)
-                    	$('.courseinfo__find__id').html(res1)
+                    	$('.courseinfo__find__id').html("Address: "+res1)
 						lay3con.methods.date().call((err, _date) => {
-							$('.courseinfo__add__date').html("Date: "+_date)
+							$('.courseinfo__find__date').html("Date: "+_date)
 						})
 						lay3con.methods.programName().call((err, _name) => {
-							$('.courseinfo__add__name').html(_name)
+							$('.courseinfo__find__name').html(_name)
 						})
 						lay3con.methods.link().call((err, _link) => {
-							$('.courseinfo__add__info__a').html(_link)
+							$('.courseinfo__find__info__a').html(_link)
 						})
 						lay3con.methods.programPic().call((err, _pic) => {
-							$('.course__add__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
+							$('.course__find__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
 						})
 						lay3con.methods.issuedBy().call((err, _issuedBy) => {
-				  		$('.courseinfo__add__issued').html("Issued by: " + _issuedBy)
+				  		$('.courseinfo__find__issued').html("Issued by: " + _issuedBy)
 						})
                   })
                 }
