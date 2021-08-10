@@ -12,7 +12,7 @@ function add(n){
 	<p id="id${i}" class="courseinfo__id">Course Id: }</p>
   	<p id="date${i}" class="courseinfo__date">Date: </p>
   	<p id="issued${i}" class="courseinfo__issued">Issued by: Vietnam Institute for Advanced Study in Mathematics (VIASM)</p>
-  	<p class="courseinfo__info">Course Information: <a id="info${i}" href=""></a></p>
+  	<p class="courseinfo__info">Course Information: <a id="info${i}" href="" target="_blank"></a></p>
 </div>
   <div class="course__button">
     <button onclick="gotoProgram(${i})" class="gotocert">Find</button>
@@ -953,6 +953,7 @@ lay2con.methods.programCount().call((err, prgcount) => {
 			})
 			lay3con.methods.link().call((err, _link) => {
 				$("#info"+String(i)).html(_link)
+				$("#info"+String(i)).attr("href", _link)
 			})
 			lay3con.methods.programPic().call((err, _pic) => {
 				$("#image"+String(i)).attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
@@ -978,6 +979,7 @@ function gotoProgram(n) {
 		})
 		lay3con.methods.link().call((err, _link) => {
 			$('.courseinfo__find__info__a').html(_link)
+			$('.courseinfo__find__info__a').attr('href', _link)
 		})
 		lay3con.methods.programPic().call((err, _pic) => {
 			$('.course__find__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
@@ -1088,6 +1090,7 @@ let verify_button = document.getElementById('verify__button')
 						})
 						lay3con.methods.link().call((err, _link) => {
 							$('.courseinfo__find__info__a').html(_link)
+							$('.courseinfo__find__info__a').attr("href", _link)
 						})
 						lay3con.methods.programPic().call((err, _pic) => {
 							$('.course__find__image__src').attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
@@ -1130,9 +1133,9 @@ let verify_button = document.getElementById('verify__button')
 		var finId = Number($("#FindCourse").val())
 		lay2con.methods.programCount().call((err, prgcount) => {
 			if(!Number.isInteger(finId) || finId < 0){
-				alert("Id must be an non negative integer")
+				alert("There are currently "+String(prgcount)+" programs with ids of 0 to "+String(prgcount - 1)+"\nPlease type a correct id.")
 			} else if(finId >= prgcount) {
-				alert("Id must be smaller than " + prgcount)
+				alert("There are currently "+String(prgcount)+" programs with ids of 0 to "+String(prgcount - 1)+"\nPlease type a correct id.")
 			} else {
 				$(".course").remove()
 				const course = document.createElement('div')
@@ -1164,6 +1167,7 @@ let verify_button = document.getElementById('verify__button')
 					})
 					lay3con.methods.link().call((err, _link) => {
 						$("#info"+String(finId)).html(_link)
+						$("#info"+String(finId)).attr("href", _link)
 					})
 					lay3con.methods.programPic().call((err, _pic) => {
 						$("#image"+String(finId)).attr("src", "https://gateway.pinata.cloud/ipfs/"+_pic)
